@@ -1,33 +1,45 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { FormEvent, useRef, useState } from "react";
+import useValidate  from "../lib"
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const $validate = useValidate({multiple: true})
+  const rules = { 
+    email: {Required: true, Email: true},
+    password: {Required: true},
+}
+
+const formdata = useRef({email: "", password: ""});
+
+const [formRules, setFormRules] = useState(rules);
+  const Submit = (ev: any) =>{
+    ev.preventDefault()
+    let valid = $validate(setFormRules, formRules, formdata.current);
+    console.log(valid)
+  }
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
+    <main className="w-100 p-sm-5 pt-5">
+        <form style={{maxWidth: "350px"}} className="card card-body mx-auto" onSubmit={Submit}>
+            <div className="form-group">
+                {/* <label className="small tw-font-normal">Username</label> */}
+                <input onChange={(e: FormEvent<HTMLInputElement>) => formdata.current.email = e.currentTarget.value} type="email" className={`form-control ${(formRules.email as any).$error ? 'border-danger': ''} tw-rounded-dm tw-py-3 tw-placeholder-slate-400`} placeholder="Username" />
+                { !!(formRules.email as any)?.$error  && <span className="small text-danger ">{(formRules.email as any).$message}</span> }
+            </div>
+            <br />
+
+            <div className="form-group">
+                {/* <label className="small tw-font-normal">Username</label> */}
+                <input onChange={(e: FormEvent<HTMLInputElement>) => formdata.current.password = e.currentTarget.value} type="password" className={`form-control ${(formRules.password as any).$error ? 'border-danger': ''} tw-rounded-dm tw-py-3 tw-placeholder-slate-400`} placeholder="Username" />
+                { !!(formRules.password as any)?.$error  && <span className="small text-danger ">{(formRules.password as any).$message}</span> }
+            </div>
+
+            <br />
+            <div>
+              <button className="btn btn-primary">Proceed</button>
+            </div>
+        </form>
+    </main>
   )
 }
 
