@@ -1,6 +1,6 @@
 import React from "react";
 
-interface Options {
+export interface Options {
     multiple?: boolean | true
 }
 
@@ -12,17 +12,14 @@ type RuleInfo  = {
     $message?: string
 }
 
-interface Rules  extends Record<string, RuleInfo>{
+export interface Rules  extends Record<string, RuleInfo>{
     [key: string]: RuleInfo
 }
 
-export type {
-    Rules, Options
-}
 
 
 
-export declare const Required = true;
+export const Required = true;
 export const Email = true;
 export const minLength = (min: number) => min;
 
