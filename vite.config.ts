@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [
     react({}), 
     dts({
-      entryRoot: resolve(__dirname, 'lib'),
+      entryRoot: resolve(__dirname, "lib"),
     })
   ],
   resolve: {
@@ -22,7 +22,8 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, "lib/index.ts"),
       name: "reactidate",
-      fileName: (format) => `reactidate.${format}.js`
+      fileName: (format) => `reactidate.${format}.js`,
+      formats: ['umd','es'],
     },
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled

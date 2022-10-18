@@ -22,4 +22,6 @@ declare module "reactidate" {
     export const Email: boolean;
     export function minLength(min: number): number;
 
+    // export default function useValidate(options: Options): void
+
 }
