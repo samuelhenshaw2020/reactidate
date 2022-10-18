@@ -1,6 +1,6 @@
 import React from "react";
 import { FormEvent, useRef, useState } from "react";
-import {useValidate}  from "../lib"
+import {useValidate}  from "../dist/reactidate.es"
 
 
 

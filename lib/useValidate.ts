@@ -1,4 +1,4 @@
-import {Dispatch} from "react";
+import React from "react";
 
 interface Options {
     multiple?: boolean | true
@@ -12,8 +12,17 @@ type RuleInfo  = {
     $message?: string
 }
 
+interface Rules  extends Record<string, RuleInfo>{
+    [key: string]: RuleInfo
+}
 
-export const Required = true;
+export type {
+    Rules, Options
+}
+
+
+
+export declare const Required = true;
 export const Email = true;
 export const minLength = (min: number) => min;
 
@@ -27,10 +36,10 @@ const $errorMessage = (field: string, suffix?: string) => {
 }
 
 
-function useValidate(Options: Options){
+export  function useValidate(Options: Options){
 
         
-    return (rulesStateMethod: Dispatch<any>, rulesState: Record<string, RuleInfo>, valueState: Record<string, string | number>): boolean => {
+    return (rulesStateMethod: React.Dispatch<any>, rulesState: Record<string, RuleInfo>, valueState: Record<string, string | number>): boolean => {
 
         let canSubmit = true;
         const stateEntries = Object.keys(valueState);
@@ -110,4 +119,3 @@ function useValidate(Options: Options){
     }
 }
 
-export default useValidate;
