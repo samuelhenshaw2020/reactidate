@@ -1,13 +1,19 @@
+import React from "react";
 import { FormEvent, useRef, useState } from "react";
 import useValidate  from "../lib"
+
+
 
 function App() {
 
   const $validate = useValidate({multiple: true})
+  
   const rules = { 
     email: {Required: true, Email: true},
     password: {Required: true},
 }
+
+
 
 const formdata = useRef({email: "", password: ""});
 
@@ -15,7 +21,7 @@ const [formRules, setFormRules] = useState(rules);
   const Submit = (ev: any) =>{
     ev.preventDefault()
     let valid = $validate(setFormRules, formRules, formdata.current);
-    console.log(valid)
+
   }
 
   return (

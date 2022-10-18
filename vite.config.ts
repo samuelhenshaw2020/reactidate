@@ -4,9 +4,9 @@ import react from '@vitejs/plugin-react'
 import dts from "vite-plugin-dts"
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig({  
   plugins: [
-    react(), 
+    react({}), 
     dts({
       entryRoot: resolve(__dirname, 'lib'),
     })

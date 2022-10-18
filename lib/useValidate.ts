@@ -1,3 +1,4 @@
+import {Dispatch} from "react";
 
 interface Options {
     multiple?: boolean | true
@@ -12,12 +13,12 @@ type RuleInfo  = {
 }
 
 
-export const Required: boolean = true;
-export const Email: boolean = true;
+export const Required = true;
+export const Email = true;
 export const minLength = (min: number) => min;
 
 const isEmail = (email: string): boolean => {
-    var emailRegex = /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
+    const emailRegex = new RegExp("/^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/");
     return emailRegex.test(email)
 }
 
@@ -29,10 +30,10 @@ const $errorMessage = (field: string, suffix?: string) => {
 function useValidate(Options: Options){
 
         
-    return (rulesStateMethod: Function, rulesState: any, valueState: any): boolean => {
+    return (rulesStateMethod: Dispatch<any>, rulesState: Record<string, RuleInfo>, valueState: Record<string, string | number>): boolean => {
 
-        let canSubmit: boolean = true;
-        let stateEntries = Object.keys(valueState);
+        let canSubmit = true;
+        const stateEntries = Object.keys(valueState);
 
         if (stateEntries.length <= 0) {
             throw new Error("no field detected in state")
@@ -42,35 +43,35 @@ function useValidate(Options: Options){
                 
             if ('Email' in rulesState[field]) {
 
-                if ((valueState as any)[field] == "") {
-                    (rulesState[field] as RuleInfo).$error = true;
-                    (rulesState[field] as RuleInfo).$message = $errorMessage(field);
+                if ((valueState)[field] == "") {
+                    (rulesState[field]).$error = true;
+                    (rulesState[field]).$message = $errorMessage(field);
                     canSubmit = false
                     if(Options.multiple == false) break;
                 }else{
-                    (rulesState[field] as RuleInfo).$error = false;
+                    (rulesState[field]).$error = false;
                 }
 
-                if (!isEmail((valueState as any)[field])) {
-                    (rulesState[field] as RuleInfo).$error = true;
-                    (rulesState[field] as RuleInfo).$message = $errorMessage(field);
+                if (!isEmail(valueState[field] as string)) {
+                    (rulesState[field]).$error = true;
+                    (rulesState[field]).$message = $errorMessage(field);
                     canSubmit = false
                     if(Options.multiple == false) break;
                 }else{
-                    (rulesState[field] as RuleInfo).$error = false;
+                    (rulesState[field]).$error = false;
                 }
             }
             
             
 
             if ('Required' in rulesState[field]) {
-                if ((valueState as any)[field] == "" || (valueState as any)[field] == null) {
-                    (rulesState[field] as RuleInfo).$error = true;
-                    (rulesState[field] as RuleInfo).$message = $errorMessage(field);
+                if ((valueState)[field] == "" || (valueState)[field] == null) {
+                    (rulesState[field]).$error = true; //changes made here
+                    (rulesState[field]).$message = $errorMessage(field);
                     canSubmit = false;
                     if(Options.multiple == false) break;
                 }else{
-                    (rulesState[field] as RuleInfo).$error = false;
+                    (rulesState[field]).$error = false;
                 }
             }
 
@@ -78,24 +79,22 @@ function useValidate(Options: Options){
             
             if ('Length' in rulesState[field]) {
                 
-                if ((valueState as any)[field] == "" || (valueState as any)[field] == null) {
-                    (rulesState[field] as RuleInfo).$error = true;
-                    (rulesState[field] as RuleInfo).$message = $errorMessage(field);
+                if ((valueState)[field] == "" || (valueState)[field] == null) {
+                    (rulesState[field]).$error = true;
+                    (rulesState[field]).$message = $errorMessage(field);
                      canSubmit = false;
                     if(Options.multiple == false) break;
                 }else{
-                    (rulesState[field] as RuleInfo).$error = false;
+                    (rulesState[field]).$error = false;
                 }
 
-                console.log(String(valueState[field]).length,   rulesState[field], 78)
-
-                if(String(valueState[field]).length <  Number((rulesState[field] as RuleInfo).Length)){
-                    (rulesState[field] as RuleInfo).$error = true;
-                    (rulesState[field] as RuleInfo).$message = $errorMessage(field, ` must be equal to or greater than ${Number((rulesState[field] as RuleInfo).Length)}`);
+                if(String(valueState[field]).length <  Number((rulesState[field]).Length)){
+                    (rulesState[field]).$error = true;
+                    (rulesState[field]).$message = $errorMessage(field, ` must be equal to or greater than ${Number((rulesState[field]).Length)}`);
                      canSubmit = false;
                     if(Options.multiple == false) break;
                 }else{
-                    (rulesState[field] as RuleInfo).$error = false;
+                    (rulesState[field]).$error = false;
                 }
 
                 

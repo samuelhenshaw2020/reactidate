@@ -21,6 +21,7 @@ module.exports = {
         "@typescript-eslint"
     ],
     "rules": {
-        'no-console': ["error"]
+        'no-console': ["error"],
+        'no-useless-escape': ["warn"]
     }
 }

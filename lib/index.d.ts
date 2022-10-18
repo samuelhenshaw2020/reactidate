@@ -9,7 +9,9 @@ declare module "reactidate" {
         $message?: string
     }
 
-    export interface RulesProps  extends Record<any, RuleInfo>{}
+    export interface Rules  extends Record<string, RuleInfo>{
+        [key: string]: RuleInfo
+    }
 
     export interface Options {
         multiple?: boolean | true
@@ -18,6 +20,6 @@ declare module "reactidate" {
 
     export const Required: boolean;
     export const Email: boolean;
-    export function minLength(min: number);
+    export function minLength(min: number): number;
 
 }
