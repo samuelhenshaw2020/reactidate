@@ -44,6 +44,7 @@
     "require": "./dist/reactidate.umd.js"
   },
   "types": "dist/index.d.ts",
+  "typings": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/samuelhenshaw2020/reactidate.git"
