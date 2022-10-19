@@ -23,6 +23,6 @@ module.exports = {
     "rules": {
         'no-console': ["error"],
         'no-useless-escape': ["warn"],
-        'no-empty': ['warn']
+        '@typescript-eslint/no-empty-interface': ['warn']
     }
 }
