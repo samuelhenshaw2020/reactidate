@@ -1,7 +1,7 @@
 {
   "name": "reactidate",
   "private": false,
-  "version": "1.0.5",
+  "version": "1.0.7",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -70,5 +70,4 @@
   "homepage": "https://github.com/samuelhenshaw2020/reactidate#readme",
   "license": "MIT",
   "access": "public"
-  
 }
