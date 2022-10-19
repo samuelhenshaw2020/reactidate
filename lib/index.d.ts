@@ -10,11 +10,11 @@ type RuleInfo  = {
 
 
 
-export declare function useValidate(options: useValidate.Options): (rulesStateMethod: React.Dispatch<any>, rulesState: Record<string, RuleInfo>, valueState: Record<string, string | number>) => boolean;
+export declare function useValidate(options?: useValidate.Options): (rulesStateMethod: React.Dispatch<any>, rulesState: Record<string, RuleInfo>, valueState: Record<string, string | number>) => boolean;
 
 declare namespace useValidate {
     export interface Options {
-        multiple?: boolean
+        // option here    
     }
 }
 

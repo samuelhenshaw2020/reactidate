@@ -22,6 +22,7 @@ module.exports = {
     ],
     "rules": {
         'no-console': ["error"],
-        'no-useless-escape': ["warn"]
+        'no-useless-escape': ["warn"],
+        'no-empty': ['warn']
     }
 }

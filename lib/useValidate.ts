@@ -1,7 +1,7 @@
 import React from "react";
 
 export interface Options {
-    multiple?: boolean | true
+  // options here
 }
 
 type RuleInfo  = {
@@ -15,9 +15,6 @@ type RuleInfo  = {
 export interface Rules  extends Record<string, RuleInfo>{
     [key: string]: RuleInfo
 }
-
-
-
 
 export const Required = true;
 export const Email = true;
@@ -33,8 +30,7 @@ const $errorMessage = (field: string, suffix?: string) => {
 }
 
 
-export  function useValidate(Options: Options){
-
+export  function useValidate(options?: Options){
         
     return (rulesStateMethod: React.Dispatch<any>, rulesState: Record<string, RuleInfo>, valueState: Record<string, string | number>): boolean => {
 
@@ -53,7 +49,6 @@ export  function useValidate(Options: Options){
                     (rulesState[field]).$error = true;
                     (rulesState[field]).$message = $errorMessage(field);
                     canSubmit = false
-                    if(Options.multiple == false) break;
                 }else{
                     (rulesState[field]).$error = false;
                 }
@@ -62,7 +57,6 @@ export  function useValidate(Options: Options){
                     (rulesState[field]).$error = true;
                     (rulesState[field]).$message = $errorMessage(field);
                     canSubmit = false
-                    if(Options.multiple == false) break;
                 }else{
                     (rulesState[field]).$error = false;
                 }
@@ -75,7 +69,6 @@ export  function useValidate(Options: Options){
                     (rulesState[field]).$error = true; //changes made here
                     (rulesState[field]).$message = $errorMessage(field);
                     canSubmit = false;
-                    if(Options.multiple == false) break;
                 }else{
                     (rulesState[field]).$error = false;
                 }
@@ -89,7 +82,6 @@ export  function useValidate(Options: Options){
                     (rulesState[field]).$error = true;
                     (rulesState[field]).$message = $errorMessage(field);
                      canSubmit = false;
-                    if(Options.multiple == false) break;
                 }else{
                     (rulesState[field]).$error = false;
                 }
@@ -98,14 +90,9 @@ export  function useValidate(Options: Options){
                     (rulesState[field]).$error = true;
                     (rulesState[field]).$message = $errorMessage(field, ` must be equal to or greater than ${Number((rulesState[field]).Length)}`);
                      canSubmit = false;
-                    if(Options.multiple == false) break;
                 }else{
                     (rulesState[field]).$error = false;
                 }
-
-                
-
-                if(Options.multiple == false) continue;
 
             }
 
