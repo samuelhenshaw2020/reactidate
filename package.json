@@ -14,7 +14,7 @@
     "security": "npm audit",
     "version": "npm version patch"
   },
-  "dependencies": {
+  "peerDependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
