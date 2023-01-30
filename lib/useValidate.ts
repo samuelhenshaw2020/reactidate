@@ -1,19 +1,26 @@
 import React from "react";
 
-export interface Options {
-  // options here
-}
-
-type RuleInfo  = {
+type RuleEntries  = {
     Required?: boolean,
     Email?: boolean,
     Length?: number,  
     $error?: boolean ,
-    $message?: string
+    $message?: string,
+    [key: string]: any
 }
 
-export interface Rules  extends Record<string, RuleInfo>{
-    [key: string]: RuleInfo
+enum R_KEYS {
+    Email="Email",
+    Required="Required",
+    Length="Length"
+}
+
+export interface Options {
+   // add extendable = true to be able to provide your own custom conditions
+}
+
+export interface Rules  extends Record<string, RuleEntries>{
+    [key: string]: RuleEntries 
 }
 
 export const Required = true;
@@ -25,80 +32,74 @@ const isEmail = (email: string): boolean => {
     return emailRegex.test(email)
 }
 
-const $errorMessage = (field: string, suffix?: string) => {
-    return String(field).replace(String(field).charAt(0), String(field).charAt(0).toUpperCase()) + (suffix ? suffix : " is invalid");
+const errorMessage = (key: string, custom_msg?: string) => {
+    return String(key).replace(String(key).charAt(0), String(key).charAt(0).toUpperCase()) + (custom_msg ? custom_msg : " is invalid");
+}
+
+
+const isFieldEmptyOrValid = (rule: Rules , key: string, condition: boolean[], custom_msg?: string): boolean => {
+    let status = true;
+    rule[key].$error = false;
+    for (let index = 0; index < condition.length; index++) {
+        if (condition[index]) {
+            (rule[key]).$error = true;
+            (rule[key]).$message = errorMessage(key, custom_msg);
+            status  = false
+            break
+        }
+    }
+    return status;
 }
 
 
 export  function useValidate(options?: Options){
-        
-    return (rulesStateMethod: React.Dispatch<any>, rulesState: Record<string, RuleInfo>, valueState: Record<string, string | number>): boolean => {
+    
+    return (rStateFunc: React.Dispatch<any>, rState: Rules, vState: Record<string, string|number|boolean|any>): boolean => {
 
         let canSubmit = true;
-        const stateEntries = Object.keys(valueState);
+        const stateEntries = Object.keys(rState)
 
-        if (stateEntries.length <= 0) {
+        if (Object.keys(rState).length <= 0) {
             throw new Error("no field detected in state")
         }
 
         for (const field of stateEntries) {
-                
-            if ('Email' in rulesState[field]) {
-
-                if ((valueState)[field] == "") {
-                    (rulesState[field]).$error = true;
-                    (rulesState[field]).$message = $errorMessage(field);
-                    canSubmit = false
-                }else{
-                    (rulesState[field]).$error = false;
-                }
-
-                if (!isEmail(valueState[field] as string)) {
-                    (rulesState[field]).$error = true;
-                    (rulesState[field]).$message = $errorMessage(field);
-                    canSubmit = false
-                }else{
-                    (rulesState[field]).$error = false;
-                }
-            }
-            
-            
-
-            if ('Required' in rulesState[field]) {
-                if ((valueState)[field] == "" || (valueState)[field] == null) {
-                    (rulesState[field]).$error = true; //changes made here
-                    (rulesState[field]).$message = $errorMessage(field);
-                    canSubmit = false;
-                }else{
-                    (rulesState[field]).$error = false;
-                }
+            if (R_KEYS.Email in rState[field]) {
+                canSubmit = isFieldEmptyOrValid(rState, field, 
+                    [
+                        (vState[field] == ""), 
+                        (!isEmail(vState[field] as string))
+                    ]
+                );
             }
 
+            if (R_KEYS.Required in rState[field]) {
+                canSubmit = isFieldEmptyOrValid(rState, field, 
+                    [
+                        (vState[field] == "")
+                    ]
+                );
+            }
             
-            
-            if ('Length' in rulesState[field]) {
+            if (R_KEYS.Length in rState[field]) {
                 
-                if ((valueState)[field] == "" || (valueState)[field] == null) {
-                    (rulesState[field]).$error = true;
-                    (rulesState[field]).$message = $errorMessage(field);
-                     canSubmit = false;
-                }else{
-                    (rulesState[field]).$error = false;
-                }
+                canSubmit = isFieldEmptyOrValid(rState, field, 
+                    [
+                        (vState[field] == "")
+                    ]
+                );
 
-                if(String(valueState[field]).length <  Number((rulesState[field]).Length)){
-                    (rulesState[field]).$error = true;
-                    (rulesState[field]).$message = $errorMessage(field, ` must be equal to or greater than ${Number((rulesState[field]).Length)}`);
-                     canSubmit = false;
-                }else{
-                    (rulesState[field]).$error = false;
-                }
-
+                canSubmit = isFieldEmptyOrValid(rState,  field, 
+                    [
+                        (String(vState[field]).length <  Number((rState[field]).Length))
+                    ], 
+                    ` must be equal to or greater than ${Number((rState[field]).Length)}`
+                );
             }
 
         }
 
-        rulesStateMethod({ ...rulesState });
+        rStateFunc({ ...rState });
         return canSubmit;
     }
 }

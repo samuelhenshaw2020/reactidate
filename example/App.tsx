@@ -1,5 +1,5 @@
 import React from "react";
-import { FormEvent, useRef, useState } from "react";
+import { FormEvent, useRef, useState,  } from "react";
 import {useValidate, Required, Email, minLength}  from "../lib"
 
 
@@ -10,15 +10,16 @@ function App() {
   
   const rules = { 
     email: {Required, Email},
-    password: {Required, minLength: minLength(6)},
+    c_password: {Required, minLength: minLength(6)}
 }
 
-const formdata = useRef({email: "", password: ""});
+const formdata = useRef({email: "", c_password: ""});
 
 const [formRules, setFormRules] = useState(rules);
   const Submit = (ev: any) =>{
     ev.preventDefault()
     let valid = $validate(setFormRules, formRules, formdata.current);
+    console.log(valid)
 
   }
 
@@ -32,8 +33,8 @@ const [formRules, setFormRules] = useState(rules);
             <br />
 
             <div className="form-group">
-                <input onChange={(e: FormEvent<HTMLInputElement>) => formdata.current.password = e.currentTarget.value} type="password" className={`form-control ${(formRules.password as any).$error ? 'border-danger': ''} tw-rounded-dm tw-py-3 tw-placeholder-slate-400`} placeholder="Username" />
-                { !!(formRules.password as any)?.$error  && <span className="small text-danger ">{(formRules.password as any).$message}</span> }
+                <input onChange={(e: FormEvent<HTMLInputElement>) => formdata.current.c_password = e.currentTarget.value} type="c_password" className={`form-control ${(formRules.c_password as any).$error ? 'border-danger': ''} tw-rounded-dm tw-py-3 tw-placeholder-slate-400`} placeholder="Username" />
+                { !!(formRules.c_password as any)?.$error  && <span className="small text-danger ">{(formRules.c_password as any).$message}</span> }
             </div>
 
             <br />

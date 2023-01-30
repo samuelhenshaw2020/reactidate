@@ -1,6 +1,6 @@
 import React from "react";
 
-type RuleInfo  = {
+type RuleEntries  = {
     Required?: boolean,
     Email?: boolean,
     Length?: number,  
@@ -8,9 +8,13 @@ type RuleInfo  = {
     $message?: string
 }
 
+export interface Rules  extends Record<string, RuleEntries>{
+    [key: string]: RuleEntries
+}
 
 
-export declare function useValidate(options?: useValidate.Options): (rulesStateMethod: React.Dispatch<any>, rulesState: Record<string, RuleInfo>, valueState: Record<string, string | number>) => boolean;
+
+export declare function useValidate(options?: useValidate.Options): (rStateFunc: React.Dispatch<any>, rState: Rules, vState: Record<string, string|number|boolean|any>) => boolean;
 
 declare namespace useValidate {
     export interface Options {
@@ -19,9 +23,6 @@ declare namespace useValidate {
 }
 
 
-export interface Rules  extends Record<string, RuleInfo>{
-    [key: string]: RuleInfo
-}
 
 export declare const Email: boolean | true;
 export declare const Required: boolean | true;
