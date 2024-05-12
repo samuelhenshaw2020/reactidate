@@ -1,7 +1,7 @@
 {
   "name": "reactidate",
   "private": false,
-  "version": "1.0.9",
+  "version": "1.0.8",
   "type": "module",
   "scripts": {
     "dev": "vite",
