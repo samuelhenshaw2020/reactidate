@@ -12,7 +12,8 @@
     "coverage": "vitest run --coverge",
     "prepare": "husky install",
     "security": "npm audit",
-    "version": "npm version patch"
+    "version": "npm version patch",
+    "ci": "act"
   },
   "peerDependencies": {
     "react": "^18.2.0",
