@@ -1,7 +1,7 @@
 {
   "name": "reactidate",
   "private": false,
-  "version": "1.0.10",
+  "version": "1.0.11",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -13,7 +13,7 @@
     "prepare": "husky install",
     "security": "npm audit",
     "version": "npm version patch",
-    "ci": "act"
+    "publish": "act"
   },
   "peerDependencies": {
     "react": "^18.2.0",
