@@ -28,21 +28,14 @@ jobs:
       - name: Build package
         run: npm run build  # Change this if your build script is different
 
-      - name: Commit changes if there are any
-        run: |
-          git config --global user.name "Samuel Henshaw"
-          git config --global user.email "samuelhenshaw2020@gmail.com"
-          if [ -n "$(git status --porcelain)" ]; then
-            git add -A
-            git commit -m "chore: commit changes before version bump"
-          fi
-
       - name: Bump version and push tag
         id: version
         run: |
           git config --global user.name "Samuel Henshaw"
           git config --global user.email "samuelhenshaw2020@gmail.com"
-          npm version patch -m "chore(release): %s [skip ci]"
+          npm version patch 
+          git add -A
+          git commit -m "chore(release): %s [skip ci]"
           git push --follow-tags
 
       - name: Update npm version
