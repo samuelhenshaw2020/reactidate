@@ -28,19 +28,6 @@ jobs:
       - name: Build package
         run: npm run build  # Change this if your build script is different
 
-      - name: Bump version and push tag
-        id: version
-        run: |
-          git config --global user.name "Samuel Henshaw"
-          git config --global user.email "samuelhenshaw2020@gmail.com"
-          npm version patch 
-          git add -A
-          git commit -m "chore(release): %s [skip ci]"
-          git push --follow-tags
-
-      - name: Update npm version
-        run: npm version patch
-
       - name: Publish to npm
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
