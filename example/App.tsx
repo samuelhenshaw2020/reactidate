@@ -33,7 +33,7 @@ const [formRules, setFormRules] = useState(rules);
             <br />
 
             <div className="form-group">
-                <input onChange={(e: FormEvent<HTMLInputElement>) => formdata.current.c_password = e.currentTarget.value} type="c_password" className={`form-control ${(formRules.c_password as any).$error ? 'border-danger': ''} tw-rounded-dm tw-py-3 tw-placeholder-slate-400`} placeholder="Username" />
+                <input onChange={(e: FormEvent<HTMLInputElement>) => formdata.current.c_password = e.currentTarget.value} type="c_password" className={`form-control ${(formRules.c_password as any).$error ? 'border-danger': ''} tw-rounded-dm tw-py-3 tw-placeholder-slate-400`} placeholder="password" />
                 { !!(formRules.c_password as any)?.$error  && <span className="small text-danger ">{(formRules.c_password as any).$message}</span> }
             </div>
 
