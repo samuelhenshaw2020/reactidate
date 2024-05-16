@@ -25,7 +25,7 @@ enum R_KEYS {
 }
 
 const keyFormatter = (value: string): string => {
-    let splitValueWithCapLetter = value.split(/(?=[A-Z]+)/g);
+    const splitValueWithCapLetter = value.split(/(?=[A-Z]+)/g);
     value = splitValueWithCapLetter.length > 1 
         ? splitValueWithCapLetter.join(" ") 
         : value
@@ -84,7 +84,7 @@ export function useValidate(): (ruleCallback:React.Dispatch<any>, ruleState: Rul
         }
 
         for (const field of stateEntries) {
-                let canSubmit: boolean = true
+                let canSubmit = true
 
                 if (R_KEYS.Required in rState[field]) {
                     canSubmit = isFieldEmptyOrValid(rState, field, [isEmpty(vState[field])])
@@ -115,7 +115,7 @@ export function useValidate(): (ruleCallback:React.Dispatch<any>, ruleState: Rul
                 }
 
                 if(R_KEYS.Confirm in rState[field]){
-                    let canSubmit: boolean  = true
+                    let canSubmit  = true
                     const [confirmKey] = Object.keys(rState).filter(f => 
                         f.startsWith("confirm") && f.search(new RegExp(Object.values({field})[0], "i")) !== -1);
 

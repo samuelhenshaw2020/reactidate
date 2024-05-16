@@ -1,4 +1,7 @@
 declare module "reactidate" {
+    
+    import React from "react";
+    
     type RuleEntries  = {
         Required?: boolean,
         Email?: boolean,

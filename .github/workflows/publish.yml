@@ -1,0 +1,45 @@
+name: Publish npm package
+
+on:
+  push:
+    branches:
+      - main  # Change this to your main branch name if different
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'  # Specify the Node.js version you want to use
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run linter
+        run: npm run lint
+
+      - name: Build package
+        run: npm run build  # Change this if your build script is different
+
+      - name: Bump version and push tag
+        id: version
+        run: |
+          git config --global user.name "Samuel Henshaw"
+          git config --global user.email "samuelhenshaw2020@gmail.com"
+          npm version patch -m "chore(release): %s [skip ci]"
+          git push --follow-tags
+
+      - name: Update npm version
+        run: npm version patch
+
+      - name: Publish to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish
